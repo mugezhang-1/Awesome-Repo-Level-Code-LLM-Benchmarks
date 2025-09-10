@@ -1,1 +1,16 @@
+[
+  {
+    "name": "ExampleBench",
+    "year": 2025,
+    "paper": "https://arxiv.org/abs/0000.00000",
+    "code": "https://github.com/example/examplebench",
+    "dataset": "https://huggingface.co/datasets/example/examplebench",
+    "langs": ["Python", "Java"],
+    "tasks": ["bugfixing", "refactoring"],
+    "runner": "exec",
+    "size": { "repos": 30, "tasks": 930 },
+    "license": "Apache-2.0",
+    "notes": "Unit-test based; cross-file reasoning required."
+  }
+]
 
