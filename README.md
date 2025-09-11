@@ -1,7 +1,7 @@
 # Awesome-Repo-Level-Code-LLM-Benchmarks
 List of repo-level benchmarks for evaluating coding abilities of LLMs — datasets, leaderboards, papers, and tooling. 
 
-## The List (auto-generated)
+## The List
 This section is rendered from `/data/benchmarks.json` by `/scripts/build_readme.py`.
 
 <!-- START:LIST -->
