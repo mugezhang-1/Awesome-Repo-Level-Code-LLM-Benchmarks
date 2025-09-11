@@ -5,5 +5,6 @@ Curated list of repo-level benchmarks for evaluating coding abilities of LLMs �
 This section is rendered from `/data/benchmarks.json` by `/scripts/build_readme.py`.
 
 <!-- START:LIST -->
-*(auto-rendered from `data/benchmarks.json`.)*
+- **ExampleBench** (2025) — bugfixing, refactoring; langs: Python, Java; runner: exec
+  [paper](https://arxiv.org/abs/0000.00000) · [code](https://github.com/example/examplebench) · [dataset](https://huggingface.co/datasets/example/examplebench)
 <!-- END:LIST -->
