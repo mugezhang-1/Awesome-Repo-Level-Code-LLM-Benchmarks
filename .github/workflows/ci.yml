@@ -1,4 +1,4 @@
-name: validate-and-render
+name: ci
 
 on:
   push:
@@ -6,17 +6,15 @@ on:
   pull_request:
 
 permissions:
-  contents: write  # needed to commit README updates
+  contents: write  # allow commits from the workflow
 
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -32,9 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: validate
     steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false  # git-auto-commit will use its own token
+      - uses: actions/checkout@v4  # default: persist-credentials=true (uses GITHUB_TOKEN)
 
       - uses: actions/setup-python@v5
         with:
@@ -48,24 +44,36 @@ jobs:
       - name: Build list from data/benchmarks.json
         run: |
           python scripts/build_readme.py > _list.md
-          cat _list.md
+          wc -l _list.md || true
+          head -n 5 _list.md || true
 
       - name: Inject list into README
         run: |
           python - <<'PY'
-          import re, pathlib
-          readme = pathlib.Path("README.md").read_text(encoding="utf-8")
-          new = pathlib.Path("_list.md").read_text(encoding="utf-8").strip()
+          import re, pathlib, sys
+          rp = pathlib.Path("README.md")
+          lp = pathlib.Path("_list.md")
+          readme = rp.read_text(encoding="utf-8")
+          new = lp.read_text(encoding="utf-8").strip()
+          if "<!-- START:LIST -->" not in readme or "<!-- END:LIST -->" not in readme:
+              print("Markers not found in README.md", file=sys.stderr)
+              sys.exit(1)
           updated = re.sub(
               r"(<!-- START:LIST -->)(.*?)(<!-- END:LIST -->)",
-              r"\1\n" + new + r"\n\3",
+              r"\\1\n" + new + r"\n\\3",
               readme, flags=re.S,
           )
-          pathlib.Path("README.md").write_text(updated, encoding="utf-8")
+          rp.write_text(updated, encoding="utf-8")
           PY
 
-      - name: Commit changes (if any)
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: auto-render list from benchmarks.json"
-          file_pattern: README.md
+      - name: Commit README (only if changed)
+        run: |
+          if git diff --quiet README.md; then
+            echo "No changes to commit."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add README.md
+            git commit -m "chore: auto-render list from benchmarks.json"
+            git push
+          fi
