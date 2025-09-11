@@ -60,7 +60,7 @@ jobs:
               sys.exit(1)
           updated = re.sub(
               r"(<!-- START:LIST -->)(.*?)(<!-- END:LIST -->)",
-              r"\\1\n" + new + r"\n\\3",
+              lambda m: m.group(1) + "\n" + new + "\n" + m.group(3),
               readme, flags=re.S,
           )
           rp.write_text(updated, encoding="utf-8")
