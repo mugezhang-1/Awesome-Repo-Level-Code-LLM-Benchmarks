@@ -1,5 +1,5 @@
 # Awesome-Repo-Level-Code-LLM-Benchmarks
-Curated list of repo-level benchmarks for evaluating coding abilities of LLMs — datasets, leaderboards, papers, and tooling. 
+List of repo-level benchmarks for evaluating coding abilities of LLMs — datasets, leaderboards, papers, and tooling. 
 
 ## The List (auto-generated)
 This section is rendered from `/data/benchmarks.json` by `/scripts/build_readme.py`.
@@ -185,3 +185,8 @@ This section is rendered from `/data/benchmarks.json` by `/scripts/build_readme.
 - **Web-Bench** (2025) — Sequential, project-scale web development tasks (50 projects × 20 tasks each); langs: JavaScript, TypeScript, HTML, CSS; runner: exec
   [paper](https://arxiv.org/abs/2505.07473)
 <!-- END:LIST -->
+## Benchmarks Mapped to SDLC
+
+Click the image to explore the interactive version.
+
+[![Benchmarks mapped to SDLC](sunburst.jpg)](https://repollmbenchmarksdlc.netlify.app/)
